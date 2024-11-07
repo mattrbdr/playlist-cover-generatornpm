@@ -1,38 +1,751 @@
-.App {
-  text-align: center;
+:root {
+  --primary-color: #2196F3;
+  --secondary-color: #1976D2;
+  --bg-dark: #0a0a0a;
+  --bg-light: #1a1a1a;
+  --text-color: #ffffff;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Reset global */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+/* Appliquer le fond noir à tout le document */
+html, body {
   min-height: 100vh;
+  background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-light) 100%);
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  color: var(--text-color);
+}
+
+.App {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  gap: 2rem;
+}
+
+.header {
+  text-align: center;
+  padding-top: 1rem;
+  max-width: 800px;
+  margin: 0 auto 2rem;
+  position: static;
+}
+
+.header::after {
+  display: none;
+}
+
+.app-subtitle {
+  color: var(--primary-color);
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  background: none;
+  -webkit-text-fill-color: initial;
+  font-weight: 600;
+}
+
+h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(90deg, #ffffff 0%, #f0f0f0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.2;
+  text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+}
+
+.subtitle {
+  color: #b3b3b3;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.size-info {
+  display: inline-block;
+  background: #333;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: #b3b3b3;
+  font-weight: 500;
+}
+
+.main-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  gap: 2rem;
+}
+
+.canvas-container {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.canvas {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  background: #282828;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.upload-btn, .download-btn {
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+
+.upload-btn {
+  background: #2D2D2D;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.upload-btn:hover {
+  background: #3D3D3D;
 }
 
-@keyframes App-logo-spin {
+.download-btn {
+  background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.download-btn:hover {
+  background: linear-gradient(90deg, #1976D2 0%, #2196F3 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+}
+
+/* Ajustements pour les contrôles */
+.controls {
+  width: 100%;
+  max-width: 500px;
+  background: transparent;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.control-group {
+  background: #282828;
+  padding: 1.5rem;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  border: 1px solid #333;
+}
+
+.control-group:hover {
+  background: #2d2d2d;
+  border-color: transparent;
+}
+
+.control-group label {
+  display: block;
+  margin-bottom: 0.8rem;
+  font-weight: 500;
+  color: #fff;
+}
+
+/* Style pour le file input */
+.file-upload {
+  position: relative;
+  width: 100%;
+}
+
+.file-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: var(--primary-color);
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.file-label:hover {
+  background: var(--secondary-color);
+  transform: none;
+  box-shadow: none;
+}
+
+.file-input {
+  display: none;
+}
+
+/* Style pour la zone de texte */
+.text-input {
+  width: 100%;
+  min-height: 100px;
+  padding: 1rem;
+  background: #3d3d3d;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  color: white;
+  font-size: 1rem;
+  resize: vertical;
+  transition: all 0.3s ease;
+}
+
+.text-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  background: #454545;
+}
+
+.char-count {
+  margin-top: 0.5rem;
+  text-align: right;
+  font-size: 0.8rem;
+  color: #b3b3b3;
+}
+
+/* Style pour l'input number */
+.number-input {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.number-input input {
+  flex: 1;
+  padding: 0.8rem;
+  background: #3d3d3d;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  color: white;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.number-input input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  background: #454545;
+}
+
+.number-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.number-controls button {
+  background: #3d3d3d;
+  border: none;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  transition: all 0.2s ease;
+}
+
+.number-controls button:hover {
+  background: var(--primary-color);
+}
+
+/* Style pour les selects */
+select {
+  width: 100%;
+  padding: 0.8rem;
+  background: #3d3d3d;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1em;
+}
+
+select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  background-color: #454545;
+}
+
+/* Hover states */
+.control-group input:hover,
+.control-group select:hover,
+.text-input:hover {
+  background: #454545;
+}
+
+.highlight {
+  color: var(--primary-color);
+  background: none;
+  -webkit-text-fill-color: initial;
+}
+
+/* Ajout du footer */
+.footer {
+  margin-top: auto;
+  padding-top: 2rem;
+  text-align: center;
+  color: #b3b3b3;
+  font-size: 0.9rem;
+}
+
+.footer p {
+  margin: 0.5rem 0;
+}
+
+.footer .creator {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.footer .social-links {
+  margin-top: 1rem;
+}
+
+.footer .social-links a {
+  color: var(--primary-color);
+  text-decoration: none;
+  margin: 0 10px;
+  transition: color 0.3s ease;
+}
+
+.footer .social-links a:hover {
+  color: var(--secondary-color);
+}
+
+/* Animation de fade-in */
+@keyframes fadeIn {
   from {
-    transform: rotate(0deg);
+    opacity: 0;
+    transform: translateY(-20px);
   }
   to {
-    transform: rotate(360deg);
+    opacity: 1;
+    transform: translateY(0);
   }
+}
+
+@media (max-width: 768px) {
+  .App {
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  .footer {
+    padding-top: 1rem;
+  }
+}
+
+.download-btn:hover,
+.file-label:hover {
+  background: var(--secondary-color);
+  transform: none;
+  box-shadow: none;
+}
+
+.footer .creator a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.footer .creator a:hover {
+  color: var(--secondary-color);
+}
+
+/* Navbar styles */
+.navbar {
+    background: rgba(10, 10, 10, 0.98);
+    backdrop-filter: blur(10px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.2rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.navbar-brand a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.4rem;
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
+}
+
+.navbar-menu {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-link {
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+    font-size: 0.95rem;
+}
+
+.nav-link:hover {
+    color: var(--primary-color);
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    margin-left: auto;
+}
+
+.hamburger span {
+    display: block;
+    width: 25px;
+    height: 2px;
+    background-color: white;
+    transition: all 0.3s ease;
+}
+
+/* Ajustez le padding-top de .App pour compenser la navbar fixe */
+.App {
+    padding-top: 5rem;
+}
+
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+    }
+
+    .navbar-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(10, 10, 10, 0.95);
+        backdrop-filter: blur(10px);
+        flex-direction: column;
+        padding: 1rem;
+        gap: 1rem;
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .navbar-menu.active {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .hamburger.active span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+}
+
+/* Ajoutez ces styles pour la page Tutorial */
+.tutorial-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 2rem 2rem;
+}
+
+.tutorial-content {
+    animation: fadeIn 0.8s ease-out;
+}
+
+.tutorial-title {
+    font-size: 3.5rem;
+    line-height: 1.2;
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.tutorial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.tutorial-section {
+    background: rgba(40, 40, 40, 0.5);
+    padding: 2rem;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.tutorial-section:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary-color);
+}
+
+.tutorial-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+    background: none;
+    -webkit-text-fill-color: initial;
+}
+
+.tutorial-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.tutorial-section li {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+    position: relative;
+    line-height: 1.6;
+    color: #f0f0f0;
+}
+
+.tutorial-section li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+}
+
+/* Mise à jour des styles de la navbar */
+.navbar {
+    background: rgba(10, 10, 10, 0.98);
+    backdrop-filter: blur(10px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.navbar-container {
+    padding: 1.2rem 2rem;
+}
+
+.navbar-brand a {
+    font-size: 1.4rem;
+    letter-spacing: -0.5px;
+}
+
+.navbar-brand {
+    position: relative;
+}
+
+.navbar-brand::after {
+    display: none;
+}
+
+.nav-link {
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+    background: rgba(33, 150, 243, 0.1);
+    color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+    .tutorial-page {
+        padding: 5rem 1rem 1rem;
+    }
+
+    .tutorial-title {
+        font-size: 2.5rem;
+    }
+
+    .tutorial-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .navbar-menu.active {
+        background: rgba(10, 10, 10, 0.98);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-link {
+        padding: 1rem;
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Modifier les styles existants de main-content et ajouter le layout en grille */
+.main-content-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 1rem;
+}
+
+@media (min-width: 1024px) {
+    .main-content-grid {
+        grid-template-columns: repeat(2, 1fr);
+        align-items: start;
+        max-width: 1400px;
+        padding: 0 2rem;
+    }
+
+    .canvas-section {
+        position: sticky;
+        top: 100px;
+    }
+
+    .controls-section {
+        padding-bottom: 2rem;
+    }
+
+    /* Ajuster la taille du canvas pour qu'il reste proportionnel */
+    .canvas-container {
+        max-width: 600px;
+    }
+
+    /* Ajuster la largeur des contrôles pour qu'ils s'alignent bien */
+    .controls {
+        max-width: 100%;
+    }
+}
+
+/* Ajuster le padding du conteneur principal */
+.App {
+    padding: 4rem 1rem 2rem;
+}
+
+/* Ajuster le header pour le nouveau layout */
+.header {
+    max-width: 800px;
+    margin: 0 auto 2rem;
+}
+
+/* Assurer que le footer reste en bas */
+.App {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.footer {
+    margin-top: auto;
+    padding-top: 3rem;
+}
+
+/* Garder le layout mobile inchangé */
+@media (max-width: 1023px) {
+    .main-content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .canvas-section,
+    .controls-section {
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+}
+
+/* Ajouter ce style pour l'info de taille près de l'upload */
+.upload-info {
+    margin-top: 0.75rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #b3b3b3;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Ajuster le style du mot "cover" dans le h1 */
+.highlight {
+    background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: inherit;
+}
+
+/* Ajouter après le style .subtitle */
+.compatibility {
+    color: #b3b3b3;
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+    opacity: 0.8;
 }
